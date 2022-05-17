@@ -1,0 +1,24 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "0.8",
+                "2022-01-01",
+                "/home/chenn0a/chenn0a/covid_esm1b/AttackProtein2/analysis/data/unique_GISAID.csv",
+                "/home/chenn0a/chenn0a/covid_esm1b/attack_result/covid/test/success_attack.txt",
+                "/home/chenn0a/chenn0a/covid_esm1b/attack_result/covid/test/failed_attack.txt",
+            ]
+        }
+    ]
+}
