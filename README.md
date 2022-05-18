@@ -8,7 +8,7 @@
 
 ## Installation
 
-1. Create the conda environment from the environment.yml file:
+1. Create the conda environment from the environment.yaml file:
 ```
     conda env create -f environment.yml
 ```
