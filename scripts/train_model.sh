@@ -10,8 +10,8 @@
 #SBATCH --cpus-per-task=6
 #SBATCH --constraint=[v100]
 
-source /home/chenn0a/miniconda3/etc/profile.d/conda.sh
-conda activate base
+
+conda activate covid_predict
 
 
 fold=$1
