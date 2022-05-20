@@ -17,14 +17,18 @@
 ```
     conda activate covid_predict
 ```
+3. Update huggingface_hub package
+```
+    conda install huggingface_hub=0.2.1
+```
 
 ## Usage
 To train the model in 5-folds cross-validation, change $fold to 0-4 :
 ```
-bash scripts/train-model.sh $fold
+    bash scripts/train-model.sh $fold
 ```
 
 To sythesize the high-risk variants, change $task_id to a number:
 ```
-bash scripts/synthetic.sh $task_id
+    bash scripts/synthetic.sh $task_id
 ```
