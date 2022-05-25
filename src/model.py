@@ -51,7 +51,7 @@ class covid_prediction_model(nn.Module):
                  dropout_prob: float=0.1,
                  pooling: str="first_token") -> None:
         super().__init__()
-        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
         self.esm_model = esm.pretrained.esm1b_t33_650M_UR50S()[0].to(device)
         self.model_name ="esm1b_t33_650M_UR50S"
         self.model_layers = self.model_name.split("_")[1][1:]

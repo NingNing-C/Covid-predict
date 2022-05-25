@@ -19,14 +19,16 @@ batch_converter = alphabet.get_batch_converter()
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 parser = argparse.ArgumentParser()
 parser.add_argument('fold', type=int, default=0,help='fold id')
+parser.add_argument('--prediction', type=bool, default=False,help='whether to output the prediction results')
+parser.add_argument('--embeddings', type=bool, default=False,help='whether to output the prediction embeddings')
 args = parser.parse_args()
 out_dir=os.path.join(dir,"result/fold_"+str(args.fold))
 training_args = TrainingArguments(
         output_dir=out_dir,   
-        num_train_epochs=100,              
+        num_train_epochs=30,              
         per_device_train_batch_size=16,  
         per_device_eval_batch_size=16,   
-        warmup_steps=80,                
+        warmup_steps=120,                
         weight_decay=0,               
         logging_dir=out_dir+"/logs",           
         logging_steps=10,
@@ -93,5 +95,19 @@ for train_index,test_index in kf.split(data):
     f=f+1
     break
 
-
+## Output the predictions and the embeddings
+if args.prediction or args.embeddings :
+    idx,strs,tokens=batch_converter(data)
+    all_result=np.empty((0,9,2))
+    embedding=np.empty((0,9,2580))
+    for batch_token in torch.split(tokens,10):
+        predict=model(batch_token.cuda(),labels=None)
+        embedding=np.append(embedding,predict.embedding.cpu().detach().numpy(),axis=0)
+        all_result=np.append(all_result,predict.logits.cpu().detach().numpy(),axis=0)
+    if args.prediction:
+        with open("result/model_prediction.npy","ab") as f1 :
+            np.save(f1,all_result)
+    if args.embeddings:
+        with open("result/model_embedding.npy","ab") as f2 :
+            np.save(f2,embedding)
     

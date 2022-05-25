@@ -1,4 +1,3 @@
-from matplotlib.pyplot import cla
 import utils.OpenAttack as oa 
 import torch
 import datasets
