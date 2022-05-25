@@ -4,6 +4,7 @@
 - `data` :  Required data for training 
 - `scripts` : Bash scripts
 - `src` : python code 
+- `analysis` : jupyter notebooks for all the analysis and plots
 
 
 ## Installation
@@ -32,3 +33,4 @@ To sythesize the high-risk variants, change $task_id to a number:
 ```
     bash scripts/synthetic.sh $task_id
 ```
+
