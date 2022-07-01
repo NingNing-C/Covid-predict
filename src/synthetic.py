@@ -19,13 +19,11 @@ dir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument("cutoff", help="The cutoff of the score",type=float)
-parser.add_argument("date", help="The variants appear after which date",type=str)
 parser.add_argument("input_file", help="The path of input file",type=str)
 parser.add_argument("success_file_out",help="The output file path",type=str)
 parser.add_argument("failed_file_out",help="The output file path",type=str)
 args = parser.parse_args()
 cutoff=args.cutoff
-date=args.date
 input_file=args.input_file
 success_file_out=args.success_file_out
 failed_file_out=args.failed_file_out
@@ -33,8 +31,8 @@ failed_file_out=args.failed_file_out
 
 
 #esm_path=os.path.join(dir,"trained_model/esm1b_t33_650M_UR50S.pt")
-model_path=os.path.join(dir,"trained_model/pytorch_model.bin")
-
+# model_path=os.path.join(dir,"trained_model/pytorch_model.bin")
+model_path='/home/chenn0a/chenn0a/covid_esm1b/esm_GCN_class/10_no_pll/checkpoint-3610/pytorch_model.bin'
 class tokenizer:
     def __init__(self) :
         self.alphabet = esm.pretrained.esm1b_t33_650M_UR50S()[1]
@@ -95,22 +93,12 @@ class ProteinClassifier(oa.Classifier):
 def main():
     #print(mp.cpu_count())
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-    init_seq_path=os.path.join(dir,"data/init_seq_2022-01-01_0.8.csv")
-    if os.path.exists(init_seq_path):
-        init_seq=pd.read_csv(init_seq_path,index_col=0)
-    else:
-        init_seq=pd.read_csv(input_file,index_col=0)
-        init_seq=init_seq[init_seq["timestamp"]>= time.mktime(dparse(date).timetuple())]
-        #init_seq=init_seq[init_seq["timestamp"]< time.mktime(dparse(date).timetuple())]
-        gisaid_score=pd.read_csv(os.path.join(dir,"data/gisaid_score.csv"),index_col=0)
-        score_dict=gisaid_score.set_index('seq')["mean_score"].to_dict()
-        init_seq["score"]=init_seq["seq"].map(score_dict)
-        init_seq=init_seq[init_seq["score"]<=cutoff]
-        init_seq.to_csv(dir+"/data/init_seq_"+date+"_"+str(cutoff)+".csv")
-    print("There are ",init_seq.shape[0]," sequences pass the filter.")
+    
+    init_seq=pd.read_csv(input_file,index_col=0)
+    
     init_seq=init_seq["seq"].to_list()
     n_seq=len(init_seq)
-    print("attack sequences number:", n_seq)
+    print("seed sequences number:", n_seq)
     dataset = datasets.Dataset.from_dict({
         "x": init_seq,
         "y": [0]*n_seq
@@ -120,11 +108,11 @@ def main():
     #attacker = oa.attackers.FDAttacker(lang="protein",substitute=substitute)
     victim = ProteinClassifier(model_path,cutoff=cutoff)
     attack_eval = oa.AttackEval(attacker, victim)
-    time_start=time.time()
+    # time_start=time.time()
     attack_eval.eval(dataset, visualize=True, progress_bar=True,s_file=success_file_out,f_file=failed_file_out)
     print("dataset:",device)
-    time_end=time.time()
-    print('time cost:',time_end-time_start,'s')
+    # time_end=time.time()
+    # print('time cost:',time_end-time_start,'s')
 
 if __name__ == "__main__":
     main()
