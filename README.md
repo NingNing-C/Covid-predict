@@ -38,7 +38,7 @@ The codes have been tested on CentOS Linux release 7.9.2009 with conda 4.13.0 an
 
 The model could be download through the link https://drive.google.com/file/d/1IMeVKB41kakB3R5z_-xJPgfHCL7Axb72/view?usp=sharing
 
-You could put the model under the folder trained_model 
+The model could be put under the folder trained_model 
 
 ## Usage
 To train the model in 5-folds cross-validation, change $fold to 0-4 :
