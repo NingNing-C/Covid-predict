@@ -101,16 +101,16 @@ class GeneticAttacker(ClassificationAttacker):
         for i in range(self.max_iters):
             pop_preds = victim.get_prob(self.make_batch(pop))
             ## record the populations 
-            outpath_seq='/home/chenn0a/chenn0a/covid_esm1b/attack_result/covid/genetic_omicron_exp/pop_seq'
-            outpath_seq = f'{outpath_seq}-{os.getpid()}'
-            outpath_pre='/home/chenn0a/chenn0a/covid_esm1b/attack_result/covid/genetic_omicron_exp/pop_pre'
-            outpath_pre = f'{outpath_pre}-{os.getpid()}'
-            with open(outpath_seq,'a+') as fp:
-                for item in pop:
-                    fp.write("%s\n" % ''.join(item))
-            with open(outpath_pre,'a+') as f2:
-                for item in pop_preds[:,1]:
-                    f2.write("%s\n" % item)
+            # outpath_seq='/home/chenn0a/chenn0a/covid_esm1b/attack_result/covid/genetic_omicron_exp/pop_seq'
+            # outpath_seq = f'{outpath_seq}-{os.getpid()}'
+            # outpath_pre='/home/chenn0a/chenn0a/covid_esm1b/attack_result/covid/genetic_omicron_exp/pop_pre'
+            # outpath_pre = f'{outpath_pre}-{os.getpid()}'
+            # with open(outpath_seq,'a+') as fp:
+            #     for item in pop:
+            #         fp.write("%s\n" % ''.join(item))
+            # with open(outpath_pre,'a+') as f2:
+            #     for item in pop_preds[:,1]:
+            #         f2.write("%s\n" % item)
             if goal.targeted:
                 top_attack = np.argmax(pop_preds[:, goal.target])
                 if np.argmax(pop_preds[top_attack, :]) == goal.target:
