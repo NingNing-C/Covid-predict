@@ -18,9 +18,9 @@ dir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 _,alphabet = esm.pretrained.esm1b_t33_650M_UR50S()
 batch_converter = alphabet.get_batch_converter()
 model=covid_prediction_model(freeze_bert=True)
-# model.load_state_dict(torch.load('results/pytorch_model.bin',map_location=device)) ## load the trained model 
+model.load_state_dict(torch.load('results/pytorch_model.bin',map_location=device)) ## load the trained model 
 
-model.load_state_dict(torch.load('/home/chenn0a/chenn0a/covid_esm1b/esm_GCN_class/10_no_pll/checkpoint-3610/pytorch_model.bin',map_location=device))
+
 print("model in device:",next(model.parameters()).device)
 model.eval()
 
