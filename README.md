@@ -46,9 +46,9 @@ The model could be download through the link https://drive.google.com/file/d/1IM
 The model could be put under the folder trained_model 
 
 ## Usage
-Here, we provide an example of model inference and variants synthetic using the circulating variants `data/pVNT_seq.csv`. You will find the results in `result` directory after running the below commands.
+Here, we provide an example of model inference and variants synthetic using the selected high-risk variant(HRV) RBD sequences `data/pVNT_seq.csv`(Which is also used in the Fig. 2b). You will find the our model embeddings, predicted escape/binding potentials, and the possible successors along the antigenic evolution direction in `result` directory after running the corresponding commands.
 
-The training of the entire model takes around three days. The inference can be completed in less than one minute. For the synthetic process, we used a toolkit OpenAttack to visualize the process. It was designed for the natural language and we extended it to protein language, the original repository could be find here: https://github.com/thunlp/OpenAttack/tree/bfedfa74f37c69db6d7092d9cc61822ee324919d. It takes approximately one minute to synthesize one variant. 
+We also provide code to perform the model training with the deep mutational scanning data. The training of the entire model takes around 10 hours with a V100 GPU. The inference can be completed in less than one minute. For the synthetic process, we used a toolkit OpenAttack to perform and visualize the process. It was designed for the natural language and we extended it to protein sequences, the original repository could be find here: https://github.com/thunlp/OpenAttack/tree/bfedfa74f37c69db6d7092d9cc61822ee324919d. It takes approximately one minute to synthesize one variant. 
 
 To train the model in 5-folds cross-validation, change $fold to 0-4 :
 ```
