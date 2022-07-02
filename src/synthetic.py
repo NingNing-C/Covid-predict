@@ -31,8 +31,8 @@ failed_file_out=args.failed_file_out
 
 
 #esm_path=os.path.join(dir,"trained_model/esm1b_t33_650M_UR50S.pt")
-# model_path=os.path.join(dir,"trained_model/pytorch_model.bin")
-model_path='/home/chenn0a/chenn0a/covid_esm1b/esm_GCN_class/10_no_pll/checkpoint-3610/pytorch_model.bin'
+model_path=os.path.join(dir,"trained_model/pytorch_model.bin")
+
 class tokenizer:
     def __init__(self) :
         self.alphabet = esm.pretrained.esm1b_t33_650M_UR50S()[1]

@@ -1,4 +1,6 @@
-# Covid-predict
+# Machine Learning-guided Antigenic Evolution Prediction (MLAEP)
+
+Here we introduce the Machine Learning-guided Antigenic Evolution Prediction (MLAEP), which combines structure modeling, multi-task learning, and genetic algorithm to model the viral fitness landscape and explore the antigenic evolution via in silico directed evolution.
 
 ## Components
 - `data` :  Required data
@@ -46,6 +48,8 @@ The model could be put under the folder trained_model
 ## Usage
 Here, we provide an example of model inference and variants synthetic using the circulating variants `data/pVNT_seq.csv`. You will find the results in `result` directory after running the below commands.
 
+The training of the entire model takes around three days. The inference can be completed in less than one minute. For the synthetic process, we used a toolkit OpenAttack to visualize the process. It was designed for the natural language and we extended it to protein language, the original repository could be find here: https://github.com/thunlp/OpenAttack/tree/bfedfa74f37c69db6d7092d9cc61822ee324919d. It takes approximately one minute to synthesize one variant. 
+
 To train the model in 5-folds cross-validation, change $fold to 0-4 :
 ```
     bash scripts/train_model.sh $fold
@@ -53,12 +57,12 @@ To train the model in 5-folds cross-validation, change $fold to 0-4 :
 To get the predictions and embeddings for variants :
 
 ```
-    bash scripts/run_inference.sh
+    bash scripts/run_infer.sh
 ```
 
 
 To sythesize the high-risk variants:
 ```
-    bash scripts/synthetic.sh
+    bash scripts/run_synthetic.sh
 ```
 
