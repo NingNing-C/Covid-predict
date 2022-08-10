@@ -60,7 +60,7 @@ class covid_prediction_model(nn.Module):
         self.pooling = pooling
         self.structEmbed = StructEmbed(node_features=128,edge_features=128,hidden_dim=128,out_dim=stru_embedding_size).to(device)
         self.antibody_data = StructureDataset(jsonl_file=jsonl_path, truncate=None, max_length=500)
-        X, S, mask, lengths = featurize(self.antibody_data, device=device, shuffle_fraction=0)
+        X, S, mask, lengths = featurize(self.antibody_data, device=device, shuffle_fraction=0,L_max=130)
         self.X=X
         self.S=S
         self.mask=mask

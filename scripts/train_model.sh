@@ -15,4 +15,4 @@ conda activate covid_predict
 
 
 fold=$1
-python ../src/model_train_5fold.py $fold
+CUDA_VISIBLE_DEVICES=1 python ../src/model_train_5fold.py $fold

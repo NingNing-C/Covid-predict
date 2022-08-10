@@ -10,6 +10,7 @@ from scipy.special import softmax
 from sklearn.metrics import precision_score, recall_score, f1_score, accuracy_score,matthews_corrcoef
 from transformers import Trainer, TrainingArguments
 import argparse
+from utils.config import *
 dir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
 
@@ -19,29 +20,35 @@ batch_converter = alphabet.get_batch_converter()
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 parser = argparse.ArgumentParser()
 parser.add_argument('fold', type=int, default=0,help='fold id')
+parser.add_argument(
+        '--config', 
+        type = str, 
+        help = 'yaml config file')
 args = parser.parse_args()
-out_dir=os.path.join(dir,"result/fold_"+str(args.fold))
+config = get_config(args)
+# out_dir=os.path.join(dir,"result/fold_"+str(args.fold))
+out_dir=os.path.join(dir,config.out_dir)
 training_args = TrainingArguments(
         output_dir=out_dir,   
-        num_train_epochs=100,              
-        per_device_train_batch_size=16,  
-        per_device_eval_batch_size=16,   
-        warmup_steps=80,                
-        weight_decay=0,               
+        num_train_epochs=config.epochs,              
+        per_device_train_batch_size=config.bstch_size,  
+        per_device_eval_batch_size=config.bstch_size,   
+        warmup_steps=config.warmup_steps,                
+        weight_decay=config.weight_decay,               
         logging_dir=out_dir+"/logs",           
         logging_steps=10,
         evaluation_strategy="steps",
         report_to = "all",
         save_strategy="steps",
         load_best_model_at_end=True,
-        gradient_accumulation_steps=10,
-        save_steps=10,
-        eval_steps=10,
+        gradient_accumulation_steps=config.gradient_accumulation_steps,
+        save_steps=config.save_steps,
+        eval_steps=config.eval_steps,
         metric_for_best_model="eval_f1_ave",
         greater_is_better=True,
-	    learning_rate=1e-5,
+	    learning_rate=config.learning_rate,
         save_total_limit=3,
-	    eval_accumulation_steps=10,
+	    eval_accumulation_steps=config.eval_accumulation_steps,
         )
 
 
@@ -80,7 +87,7 @@ for train_index,test_index in kf.split(data):
     
     train_dataset=DMS_dataset_pl(train_tokens,train_labels)
     val_dataset=DMS_dataset_pl(val_tokens,val_labels)
-    model=covid_prediction_model(dropout_prob=0.1,freeze_bert=False)
+    model=covid_prediction_model(dropout_prob=config.dropout_prob,freeze_bert=False)
     trainer = Trainer(
         model=model,                    # the instantiated 🤗 Transformers model to be trained
         args=training_args,                  # training arguments, defined above

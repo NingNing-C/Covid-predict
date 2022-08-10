@@ -6,12 +6,12 @@ import torch.nn.functional as F
 import json, time
 
 
-def featurize(batch, device, shuffle_fraction=0.):
+def featurize(batch, device, L_max,shuffle_fraction=0.):
     """ Pack and pad batch into torch tensors """
     alphabet = 'ACDEFGHIKLMNPQRSTVWY'
     B = len(batch)
     lengths = np.array([len(b['seq']) for b in batch], dtype=np.int32)
-    L_max = max([len(b['seq']) for b in batch])
+    # L_max = max([len(b['seq']) for b in batch])
     X = np.zeros([B, L_max, 4, 3])
     S = np.zeros([B, L_max], dtype=np.int32)
 
