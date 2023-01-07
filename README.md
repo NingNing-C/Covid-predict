@@ -50,9 +50,7 @@ Here, we provide an example of model inference and variants synthetic using the 
 
 We also provide code to perform the model training with the deep mutational scanning data. The training of the entire model takes around 10 hours with a V100 GPU. The inference can be completed in less than one minute. For the synthetic process, we used a toolkit OpenAttack to perform and visualize the process. It was designed for the natural language and we extended it to protein sequences, the original repository could be find here: https://github.com/thunlp/OpenAttack/tree/bfedfa74f37c69db6d7092d9cc61822ee324919d. It takes approximately one minute to synthesize one variant. 
 
-To train the model in 5-folds cross-validation, change $fold to 0-4 :
-```
-    bash scripts/train_model.sh $fold
+
 ```
 To get the predictions and embeddings for variants :
 
